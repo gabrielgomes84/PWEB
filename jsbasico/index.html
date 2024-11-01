@@ -3,15 +3,14 @@
    <head>
       <meta charset="UTF-8">   
       <style>
-         /* Estilo do div que exibe o nome da cerveja */
-         #divCerveja {
-            opacity: 0; /* Inicialmente invisível */
-            transition: opacity 0.5s ease; /* Transição suave de 0.5 segundos */
+         /* Estilos para a animação */
+         .project {
+            transition: opacity 0.5s ease-in-out; /* Transição suave de 0.5 segundos */
+            opacity: 1; /* Inicia totalmente visível */
          }
 
-         /* Classe para deixar o div visível */
-         .show {
-            opacity: 1; /* Totalmente visível */
+         .hide {
+            opacity: 0; /* Quando escondida, opacidade 0 (invisível) */
          }
       </style>   
    </head>
@@ -19,37 +18,39 @@
    <body>
       <!-- Div que contém o botão -->
       <div id="divBotao">
-         <button id="botaoCarregar">Carregando cervejas...</button>
+         <button id="botaoCarregar">Carregar Cervejas</button>
       </div>
 
       <!-- Div separada para exibir o nome da cerveja -->
-      <div id="divCerveja">
+      <div id="divCerveja" class="project">
          <!-- O nome da cerveja aparecerá aqui -->
       </div>
 
       <script>
-         // Função que será chamada ao clicar no botão
+         // Função para alternar o conteúdo do div com fade
          function carregarDiv() {
-            // Pegando o div onde o nome da cerveja será exibido
+            // Seleciona o div onde o nome da cerveja será exibido
             let divCerveja = document.getElementById("divCerveja");
 
             // Verifica se o div está vazio (ou seja, ainda não mostrou o nome da cerveja)
             if (divCerveja.textContent === "") {
-               // Exibe o nome da cerveja
-               divCerveja.innerHTML = "<h1>Guinness</h1>";
-               
-               // Adiciona a classe "show" para fazer o fade in
+               // Aplica fade out (hide) antes de alterar o conteúdo
+               divCerveja.classList.add("hide");
+
+               // Aguarda o fade out antes de atualizar o conteúdo e fazer o fade in
                setTimeout(() => {
-                  divCerveja.classList.add("show");
-               }, 10); // 10 milissegundos de atraso para permitir a transição
+                  divCerveja.innerHTML = "<h1>Guinness</h1>";
+                  divCerveja.classList.remove("hide"); // Aplica fade in
+               }, 500); // Tempo de transição do fade out (0.5s)
             } else {
-               // Remove a classe "show" para fazer o fade out
-               divCerveja.classList.remove("show");
+               // Aplica fade out (hide) para ocultar antes de limpar o conteúdo
+               divCerveja.classList.add("hide");
 
                // Remove o conteúdo após a transição de fade out
                setTimeout(() => {
-                  divCerveja.innerHTML = ""; // Limpa o conteúdo após a animação
-               }, 500); // O tempo aqui deve coincidir com a duração da transição (0.5s)
+                  divCerveja.innerHTML = ""; // Limpa o conteúdo
+                  divCerveja.classList.remove("hide"); // Aplica fade in
+               }, 500); // Tempo de transição do fade out (0.5s)
             }
          } 
 
