@@ -34,9 +34,9 @@
             let divCerveja = document.getElementById("divCerveja");
 
             // Verifica se o div está vazio (ou seja, ainda não mostrou o nome da cerveja)
-            if (divCerveja.innerHTML === "") {
+            if (divCerveja.textContent === "") {
                // Exibe o nome da cerveja
-               divCerveja.innerHTML = <h1>Guinness</h1>;
+               divCerveja.innerHTML = "<h1>Guinness</h1>";
                
                // Adiciona a classe "show" para fazer o fade in
                setTimeout(() => {
