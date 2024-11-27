@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lista de Bebidas</title>
+   <style>
+      body {
+         font-family: 'Arial', sans-serif;
+         background-color: #f4f4f4;
+         margin: 0;
+         padding: 0;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         color: #333;
+      }
+      h1 {
+         color: #4CAF50;
+         text-align: center;
+         margin-bottom: 20px;
+      }
+      .botao {
+         background-color: #4CAF50;
+         color: white;
+         padding: 10px 20px;
+         border: none;
+         border-radius: 5px;
+         font-size: 16px;
+         cursor: pointer;
+         transition: background-color 0.3s ease;
+      }
+      .botao:hover {
+         background-color: #45a049;
+      }
+      #bebidasDiv {
+         margin-top: 20px;
+         width: 90%;
+         max-width: 800px;
+         background-color: white;
+         padding: 20px;
+         border-radius: 8px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
+         overflow-x: auto;
+      }
+      .erro {
+         color: red;
+         text-align: center;
+         font-weight: bold;
+      }
+      table {
+         width: 100%;
+         border-collapse: collapse;
+         margin-top: 20px;
+      }
+      th, td {
+         padding: 10px;
+         border: 1px solid #ddd;
+         text-align: left;
+      }
+      th {
+         background-color: #f4f4f4;
+      }
+   </style>
+</head>
+<body>
+
+   <div>
+      <h1>Descubra Novos Cafés e Cervejas</h1>
+      <button id="botaoCarregarCervejas" class="botao">Carregar Cervejas</button>
+      <button id="botaoCarregarCafes" class="botao">Carregar Cafés</button>
+   </div>
+   
+   <div id="bebidasDiv"></div>
+
+   <script src="utils.js"></script> <!-- Importando o arquivo com a função genérica -->
+   
+   <script>
+      let bebidas = [];
+
+      // Função que carrega as bebidas na div
+      const carregarDiv = dados => {
+         const div = document.getElementById("bebidasDiv");
+         div.innerHTML = "";  // Limpa a div antes de exibir novos dados
+
+         if (dados[0].alcohol) {
+            // Exibe dados de cerveja
+            dados.forEach(item => {
+               div.innerHTML += `<div><strong>${item.name}</strong> - ${item.alcohol} - <em>${item.brand}</em> - ${item.style}</div>`;
+            });
+         } else {
+            // Exibe a tabela de cafés
+            const colunas = ["Blend Name", "Origin", "Variety", "Notes", "Intensifier"];
+            const tabela = criarTabela(dados, colunas);
+            div.appendChild(tabela);
+         }
+      }
+
+      // Função para carregar os dados das cervejas
+      function carregarCervejas() {
+         fetch("https://random-data-api.com/api/v2/beers?size=3")
+            .then(res => res.json())
+            .then(data => {
+               bebidas = data;
+               carregarDiv(bebidas);
+            })
+            .catch(err => {
+               document.getElementById("bebidasDiv").innerHTML = "<p class='erro'>Falha ao carregar as cervejas...</p>";
+            });
+      }
+
+      // Função para carregar os dados dos cafés
+      function carregarCafes() {
+         fetch("https://random-data-api.com/api/coffee/random_coffee?size=3")
+            .then(res => res.json())
+            .then(data => {
+               bebidas = data;
+               carregarDiv(bebidas);
+            })
+            .catch(err => {
+               document.getElementById("bebidasDiv").innerHTML = "<p class='erro'>Falha ao carregar os cafés...</p>";
+            });
+      }
+
+      // Evento do botão para carregar as cervejas
+      let botaoCervejas = document.getElementById("botaoCarregarCervejas");
+      botaoCervejas.addEventListener("click", () => carregarCervejas());
+
+      // Evento do botão para carregar os cafés
+      let botaoCafes = document.getElementById("botaoCarregarCafes");
+      botaoCafes.addEventListener("click", () => carregarCafes());
+   </script>
+
+</body>
+</html>
