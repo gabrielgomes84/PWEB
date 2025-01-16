@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ReactZero - Uma tabela pra ver o balai de gato que fica</title>
+  <div id="subt"></div>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h1, h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px 0;
+      border-collapse: collapse;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      margin: 20px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../libs/react.js"></script>
+  <script src="../libs/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.18.6/babel.min.js"></script>
+  <script type="text/babel">
+    // Array fixo de objetos JSON de Astronomia
+    const objetosAstronomia = [
+      { nome: 'Sol', tipo: 'Estrela', distancia: '0 km' },
+      { nome: 'Terra', tipo: 'Planeta', distancia: '149,6 milhões de km' },
+      { nome: 'Júpiter', tipo: 'Planeta', distancia: '778,3 milhões de km' },
+      { nome: 'Vênus', tipo: 'Planeta', distancia: '41,4 milhões de km' }
+    ];
+
+    // Função TabelaBebidas que retorna a tabela de bebidas
+    function TabelaBebidas() {
+      return (
+        <table id="tabela" border="1">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Marca</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Havana</td>
+              <td>Engenho Anísio Santiago</td>
+            </tr>
+          </tbody>
+        </table>
+      );
+    }
+
+    // Função TabelaAstronomia que renderiza a tabela com as informações do array de astronomia
+    function TabelaAstronomia() {
+      return (
+        <table id="tabela-astronomia" border="1">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Distância</th>
+            </tr>
+          </thead>
+          <tbody>
+            {objetosAstronomia.map((obj, index) => (
+              <tr key={index}>
+                <td>{obj.nome}</td>
+                <td>{obj.tipo}</td>
+                <td>{obj.distancia}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    }
+
+    // Função Cabecalho que retorna o título h1
+    function Cabecalho() {
+      return (
+        <h1>Minha Tabela de Bebidas e Astronomia</h1>
+      );
+    }
+
+    // Função Principal que controla a exibição da tabela de astronomia após o clique
+    function PaginaTabela() {
+      const [mostrarTabelaAstronomia, setMostrarTabelaAstronomia] = React.useState(false);
+
+      // Função para alterar o estado e mostrar a tabela de astronomia
+      const exibirTabelaAstronomia = () => {
+        setMostrarTabelaAstronomia(true);
+      };
+
+      return (
+        <div>
+          <Cabecalho />
+          <h2>Tabela de Bebidas</h2>
+          <TabelaBebidas />
+          <button onClick={exibirTabelaAstronomia}>Mostrar Tabela de Astronomia</button>
+          {mostrarTabelaAstronomia && <TabelaAstronomia />}
+        </div>
+      );
+    }
+
+    // Renderizar o componente principal no elemento com id="app"
+    ReactDOM.render(
+      <PaginaTabela />,
+      document.getElementById("app")
+    );
+  </script>
+</body>
+</html>
